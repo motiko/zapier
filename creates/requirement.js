@@ -11,11 +11,11 @@ module.exports = {
 
   operation: {
     inputFields: [
-      {key: 'projectId', required: true, label: 'Project ID',  dynamic: 'projectList.id.name'},
+      {key: 'projectId', required: true, label: 'Project', dynamic: 'projectList.id.name'},
+      {key: 'authorId', required: true, label: 'Author', dynamic: 'userList.id.name'},
       {key: 'name', required: true, type: 'string'},
       {key: 'description', required: false, type: 'text'},
-      {key: 'authorId', required: true, type: 'integer', label: 'Author ID'},
-      {key: 'assignedToId', required: false, type: 'text'},
+      {key: 'assignedToId', required: false, label: 'Assigned To',dynamic: 'userList.id.name'},
       {key: 'version', required: false, type: 'text'},
       {key: 'priority', required: false, type: 'text'},
       {key: 'parentId', required: false, type: 'integer'},
