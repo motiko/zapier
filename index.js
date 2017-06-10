@@ -1,7 +1,10 @@
 // const RequirementResource = require('./resources/requirement');
 const RequirementCreate = require('./creates/requirement')
+const RunCreate = require('./creates/run')
+
 const ProjectResource = require('./resources/project')
 const UserResource = require('./resources/user')
+const InstanceResource = require('./resources/instance')
 const Authentication = require('./authentication')
 
 const includeAuthenticationData = (request, z, bundle) => {
@@ -29,7 +32,8 @@ const App = {
   // If you want to define optional resources to simplify creation of triggers, searches, creates - do that here!
   resources: {
     [ProjectResource.key]: ProjectResource,
-    [UserResource.key]: UserResource
+    [UserResource.key]: UserResource,
+    [InstanceResource.key]: InstanceResource
   },
 
   // If you want your trigger to show up, you better include it here!
@@ -42,7 +46,8 @@ const App = {
 
   // If you want your creates to show up, you better include it here!
   creates: {
-    [RequirementCreate.key]: RequirementCreate
+    [RequirementCreate.key]: RequirementCreate,
+    [RunCreate.key]: RunCreate
   }
 };
 

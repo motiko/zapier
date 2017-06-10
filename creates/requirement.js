@@ -12,24 +12,24 @@ module.exports = {
   operation: {
     inputFields: [
       {key: 'projectId', required: true, label: 'Project', dynamic: 'projectList.id.name'},
-      {key: 'authorId', required: true, label: 'Author', dynamic: 'userList.id.name'},
+      {key: 'author-id', required: true, label: 'Author', dynamic: 'userList.id.name'},
       {key: 'name', required: true, type: 'string'},
       {key: 'description', required: false, type: 'text'},
-      {key: 'assignedToId', required: false, label: 'Assigned To',dynamic: 'userList.id.name'},
+      {key: 'assigned-to-id', required: false, label: 'Assigned To',dynamic: 'userList.id.name'},
       {key: 'version', required: false, type: 'text'},
       {key: 'priority', required: false, type: 'text'},
-      {key: 'parentId', required: false, type: 'integer'},
+      {key: 'parent-id', required: false, type: 'integer'},
       {key: 'traceability', required: false, type: 'integer'}
     ],
     perform: (z, bundle) => {
       const attributes = {
         name: bundle.inputData.name,
         description: bundle.inputData.description,
-        "author-id": bundle.inputData.authorId,
-        "assigned-to-id": bundle.inputData.assignedToId,
+        "author-id": bundle.inputData["author-id"],
+        "assigned-to-id": bundle.inputData["assigned-to-id"],
         version: bundle.inputData.version,
         priority: bundle.inputData.priority,
-        "parent-id": bundle.inputData.parentId
+        "parent-id": bundle.inputData["parent-id"]
       }
       var bodyObj = {
           data:{
@@ -56,7 +56,7 @@ module.exports = {
     sample: {
       id: 1,
       name: 'Login and Validation',
-      authorId: 1,
+      "author-id": 1,
       description: 'Test the login function and the user validation algoritm of the system'
     },
 
