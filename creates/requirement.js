@@ -1,44 +1,47 @@
-// We recommend writing your creates separate like this and rolling them
-// into the App definition at the end.
-const baseUrl = 'http://edbe27ac.ngrok.io'
+const baseUrl = require('../config').baseUrl
 
 module.exports = {
   key: 'requirement',
 
-  // You'll want to provide some helpful display labels and descriptions
-  // for users. Zapier will put them into the UX.
   noun: 'Requirement',
   display: {
     label: 'Create Requirement',
     description: 'Creates a new requirements.'
   },
 
-  // `operation` is where the business logic goes.
   operation: {
     inputFields: [
+      {key: 'projectId', required: true, label: 'Project ID',  dynamic: 'projectList.id.name'},
       {key: 'name', required: true, type: 'string'},
+      {key: 'description', required: false, type: 'text'},
       {key: 'authorId', required: true, type: 'integer', label: 'Author ID'},
-      {key: 'projectId', required: true, type: 'integer', label: 'Project ID'},
-      {key: 'description', required: false, type: 'text'}
+      {key: 'assignedToId', required: false, type: 'text'},
+      {key: 'version', required: false, type: 'text'},
+      {key: 'priority', required: false, type: 'text'},
+      {key: 'parentId', required: false, type: 'integer'},
+      {key: 'traceability', required: false, type: 'integer'}
     ],
     perform: (z, bundle) => {
+      const attributes = {
+        name: bundle.inputData.name,
+        description: bundle.inputData.description,
+        "author-id": bundle.inputData.authorId,
+        "assigned-to-id": bundle.inputData.assignedToId,
+        version: bundle.inputData.version,
+        priority: bundle.inputData.priority,
+        "parent-id": bundle.inputData.parentId
+      }
+      var bodyObj = {
+          data:{
+            type: "requirements",
+            attributes
+          }
+        }
+      if(bundle.inputData.traceability) bodyObj.traceability = {"test-ids": bundle.inputData.traceability}
       const promise = z.request({
         url: `${baseUrl}/api/v2/projects/${bundle.inputData.projectId}/requirements.json`,
         method: 'POST',
-        body: JSON.stringify({
-          data:{
-            type: "requirements",
-            attributes: {
-              name: bundle.inputData.name,
-              description: bundle.inputData.description,
-              "author-id": bundle.inputData.authorId
-            },
-            traceability: {
-              "test-ids": bundle.inputData.testIds
-            }
-          }
-
-        }),
+        body: JSON.stringify(bodyObj),
         headers: {
           'content-type': 'application/json'
         }
@@ -65,7 +68,11 @@ module.exports = {
       {key: 'id', label: 'ID'},
       {key: 'name', label: 'Name'},
       {key: 'description', label: 'Description'},
-      {key: 'author-id', label: 'Author ID'}
+      {key: 'author-id', label: 'Author ID'},
+      {key: 'assignedToId', label: 'Assigned To'},
+      {key: 'version', label: 'Version'},
+      {key: 'priority', label: 'Priority'},
+      {key: 'parentId', label: 'Parent ID'}
     ]
   }
 };
